@@ -10,7 +10,7 @@ Issues are very valuable to this project. If you can contribute to any of the fo
     experience
 
 
-## Pull Requests
+## Pull Request
 
 Pull requests are a great way to get your ideas into this repository. Make sure it adheres to the following:
 
