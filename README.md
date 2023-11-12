@@ -1,6 +1,6 @@
 # dbt and Google Bigquery
 
-This repository contains the code that reads data from a Google BigQuery project, creates an ELT pipeline that pushes the data as a view to a different project. It extracts, transforms and loads it into the required format using dbt. There are 3 layers - the source, staging and mart layer. It also implements generic and singular tests using dbt to ensure the data is clean and processed correctly. It also implements a Gitlab CI pipeline that checks if the code compiles. 
+This repository contains the code that reads data from a Google BigQuery project, creates an ETL pipeline that pushes the data as a view to a different project. It extracts, transforms and loads it into the required format using dbt. There are 3 layers - the source, staging and mart layer. It also implements generic and singular tests using dbt to ensure the data is clean and processed correctly. It also implements a Gitlab CI pipeline that checks if the code compiles. 
 
 ### Prerequisites
 
