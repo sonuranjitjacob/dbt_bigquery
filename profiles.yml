@@ -1,0 +1,14 @@
+yearly_sales_data:
+  outputs:
+    dev:
+      dataset: dbt_sonuranjitjacob
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      keyfile: #fill in your service key file here
+      location: EU
+      method: service-account
+      priority: interactive
+      project: analytics-data
+      threads: 4
+      type: bigquery
+  target: dev

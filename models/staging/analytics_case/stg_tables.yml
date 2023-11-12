@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: stg_commission
+    description: commission per brand and category
+    columns: 
+      - name: productBrand
+        description: same as source table
+        tests:
+          - not_null
+      - name: productCategory
+        description: missing values set to 'Unknown', if changing change comment in stg_commission
+        tests:
+          - not_null
+      - name: commission
+        description: missing values set to 0.01, taking a nominal value to check the impact of this change, if changing value change comment in stg_commission
+        tests:
+          - not_null
+  - name: stg_orders
+    description: same as source table, tests done at source
+    columns:
+      - name: orderId
+        description: primary key for stg_orders
+      

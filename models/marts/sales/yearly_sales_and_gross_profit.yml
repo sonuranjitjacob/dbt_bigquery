@@ -1,0 +1,6 @@
+version: 2
+
+models:
+  - name: yearly_sales_and_gross_profit
+    description: sales and gross profit per year calculated using commission and orderTotalPrice
+    

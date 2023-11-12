@@ -1,0 +1,88 @@
+version: 2
+
+sources:
+  - name: analytics_case #dbt uses name as schema if no schema is specified
+    description: belongs to project raw-data with schema name as analytics_case, contains orders and commission tables
+    database: raw-data
+    schema: analytics_case
+    tables:
+      - name: table_commission
+        description: source table with commission from project raw-data and schema analytics_case 
+        tests:
+          - dbt_expectations.expect_table_columns_to_match_set:
+              column_list: ["commission", "productBrand", "productCategory"]
+        columns:
+          - name: commission
+            description: the percentage (indicated on a scale of 0 (0%) to 1 (100%)) of the orderTotalPrice that needs to be payed as commission for using the platform
+            tests:
+              - dbt_utils.expression_is_true:
+                  expression: " >= 0"
+          - name: productCategory
+            description: the category to which the commission applies
+            tests:
+              -  dbt_expectations.expect_column_values_to_be_of_type:
+                  column_type: string
+          - name: productBrand
+            description: the brand to which the commission applies
+            tests:
+              -  dbt_expectations.expect_column_values_to_be_of_type:
+                  column_type: string
+      - name: table_orders
+        description: source table with order data from project raw-data and schema analytics_case 
+        columns:
+          - name: orderId
+            description: unique id for every order
+            tests:
+              - not_null
+              - unique
+              - dbt_expectations.expect_column_to_exist
+              - dbt_expectations.expect_column_values_to_be_of_type:
+                  column_type: string
+          - name: orderDate
+            description: order placed date
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
+              - dbt_expectations.expect_column_values_to_be_of_type:
+                  column_type: date
+          - name: productCategory
+            description: the category the product belongs to
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
+              -  dbt_expectations.expect_column_values_to_be_of_type:
+                  column_type: string
+          - name: productBrand
+            description: the brand of the product sold
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
+              -  dbt_expectations.expect_column_values_to_be_of_type:
+                  column_type: string
+          - name: orderTotalPrice
+            description: the product of the orderQuantity and orderPrice
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
+              -  dbt_expectations.expect_column_values_to_be_of_type:
+                  column_type: float64
+              - dbt_utils.expression_is_true:
+                  expression: " >= 0"
+          - name: orderQuantity
+            description: number of units ordered
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
+              -  dbt_expectations.expect_column_values_to_be_of_type:
+                  column_type: float64
+              - dbt_utils.expression_is_true:
+                  expression: " > 0"
+          - name: orderPrice
+            description: price of a single unit in the order
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
+              -  dbt_expectations.expect_column_values_to_be_of_type:
+                  column_type: float64
+              - dbt_utils.expression_is_true:
+                  expression: " > 0"

@@ -1,0 +1,24 @@
+stages:
+  - compile-dbt
+
+.dbt_run: &dbt_jobs
+  image: python:3.8.1-slim-buster
+  before_script:
+    - apt-get update
+    - apt-get dist-upgrade -y
+    - apt-get install -y --no-install-recommends git make ca-certificates libpq-dev libicu-dev pkg-config gcc build-essential
+    - pip install dbt-bigquery
+    - export CI_PROFILE_TARGET="--profiles-dir ."
+    - echo $CI_PROFILE_TARGET
+    
+.compile:
+  <<: *dbt_jobs
+  script:
+    - dbt deps $CI_PROFILE_TARGET
+    - dbt list $CI_PROFILE_TARGET
+
+compile-dbt:
+  extends: .compile
+  stage: compile-dbt
+  variables:
+    TARGET_NAME: dev
